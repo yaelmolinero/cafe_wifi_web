@@ -1,0 +1,89 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% include "header.html" %}
+
+  <header>
+    <div class="mb-5 py-5 d-flex align-content-end flex-wrap" style="height: 50vh; background-image: url({{ data.img_url }}); background-position: center; background-size: cover;">
+      <div class="container">
+        <h2 class="text-white fw-bold display-3">{{ data.name }}</h2>
+        <h4 class="fw-normal text-white">{{ data.qualification }} {{ data.stars }} ({{ data.t_opinions }} opinions)</h4>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="row row-cols-1 row-cols-lg-2">
+      <!-- COMMENTS -->
+      <div class="col col-lg-7">
+        <h2 class="fw-bold mb-4">Comments</h2>
+
+        {% for comment in all_comments %}
+        <div class="row row-cols-2">
+          <!-- PROFILE IMG -->
+          <div class="col-auto">
+            <img width="50" height="50" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
+          </div>
+          <!-- COMMENT CONTENT -->
+          <div class="col-10 ps-1 pe-1">
+            <span>
+              <span class="fw-bold my-0 h5">{{ comment.comment_author.name | safe() }}  </span>
+              <span class="my-0 h5">{{ '★' * comment.score | int }}{{ '☆' * (5-comment.score) | int }}</span>
+            </span>
+            <p class="text-body-secondary mb-2">{{ comment.date }}</p>
+            <p class="text-body">{{ comment.body | safe() }}</p>
+          </div>
+        </div>
+        {% endfor %}
+        <hr>
+        {% if current_user.is_authenticated %}
+          {% if can_comment  %}
+            {{ wtf.quick_form(form, button_map={"submit": "dark"}) }}
+            {{ ckeditor.load() }}
+          {% else %}
+          <div class="d-flex justify-content-center">
+            <a class="btn btn-dark rounded-pill px-4" href="{{ url_for('get_all_cafes') }}">All cafes</a>
+          </div>
+          {% endif %}
+        {% else %}
+          <div class="d-flex justify-content-center">
+            <a class="btn btn-dark rounded-pill px-4" href="{{ url_for('create_count') }}">Sing up to comment</a>
+          </div>
+        {% endif %}
+
+      </div>
+
+      <!-- INFO / EDIT / DELETE -->
+      <div class="col col-lg-5">
+        <h2 class="fw-bold mb-4">Info</h2>
+        <div class="d-flex flex-wrap">
+          <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill mb-2 me-1 p-2">{{ data.seats }} seats</span>
+          {% if data.has_wifi %}
+          <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill mb-2 me-1 p-2">Wifi</span>
+          {% endif %}
+          {% if data.has_toilet %}
+          <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill mb-2 me-1 p-2">Toilets</span>
+          {% endif %}
+          {% if data.has_sockets %}
+          <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill mb-2 me-1 p-2">Sockets</span>
+          {% endif %}
+          {% if data.can_take_calls %}
+          <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill mb-2 me-1 p-2">Calls</span>
+          {% endif %}
+        </div>
+        <hr>
+        <a class="link-underline link-underline-opacity-0" href="{{ data.map_url }}">View in map -></a>
+        <div class="d-flex flex-wrap my-4">
+          {% if current_user.is_authenticated %}
+          <a href="{{ url_for('edit_current', cafe_id=data.id) }}" class="btn btn-dark rounded-pill me-2 px-4">Edit</a>
+          {% else %}
+          <a href="{{ url_for('create_count') }}" class="btn btn-dark rounded-pill me-2 px-4">Edit</a>
+          {% endif %}
+          {% if current_user.get_id() == "1" %}
+          <a href="{{ url_for('delete_cafe', cafe_id=data.id) }}" class="btn btn-light rounded-pill border px-4">Delete</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% include "footer.html" %}

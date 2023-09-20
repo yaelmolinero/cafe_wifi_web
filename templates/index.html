@@ -1,0 +1,64 @@
+{% include "header.html" %}
+
+<!-- ALL CAFES SECTION -->
+<header>
+  <div class="mb-5 py-5 d-flex align-content-end flex-wrap" style="height: 50vh; background-image: url({{ url_for('static', filename='img/main_cover.jpg') }}); background-position: center; background-size: cover;">
+    <div class="container">
+      <h2 class="text-white fw-bold display-3">Home</h2>
+    </div>
+  </div>
+</header>
+
+<div class="container mx-auto my-4">
+  <div class="row mb-2">
+
+    {% for cafe in data %}
+    <div class="col-xl-6">
+      <div class="row mb-2 g-0 rounded overflow-hidden flex-md-row shadow-sm position-relative" style="height: 250px;">
+
+        <!-- IMG -->
+        <div class="col-md-auto d-none d-md-block">
+          <a href="{{ url_for('show_cafe', cafe_id=cafe.id) }}">
+            <img src="{{ cafe.img_url }}" class="object-fit-cover" width="250" height="250">
+          </a>
+        </div>
+
+        <!-- INFO -->
+        <div class="col p-4 position-static d-flex flex-column">
+          <h3><a class="link-body-emphasis link-offset-2 link-underline link-underline-opacity-0" href="{{ url_for('show_cafe', cafe_id=cafe.id) }}">{{ cafe.name }}</a></h3>
+          <div class="d-flex gap-2 mb-3">
+            <span>
+              <span class="text-secondary">{{ cafe.qualification }}</span>
+              <span>{{ cafe.stars }}</span>
+              <span class="text-secondary">({{ cafe.t_opinions }})</span>
+            </span>
+             ·
+            <span class="text-secondary">{{ cafe.coffee_price }}</span>
+          </div>
+          <div class="d-flex flew-wrap">
+            <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill me-1 p-2">{{ cafe.seats }} seats</span>
+            {% if cafe.has_wifi %}
+            <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill me-1 p-2 ">Wifi</span>
+            {% endif %}
+            {% if cafe.has_toilet %}
+            <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill me-1 p-2">Toilet</span>
+            {% endif %}
+            {% if cafe.has_sockets %}
+            <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill me-1 p-2">Sockets</span>
+            {% endif %}
+            {% if cafe.can_take_calls %}
+            <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill me-1 p-2">Calls</span>
+            {% endif %}
+          </div>
+          <p class="my-3 fw-bold">{{ cafe.location }}</p>
+          <a href="{{ cafe.map_url }}" class="link-offset-3">View in map</a>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% include "footer.html" %}

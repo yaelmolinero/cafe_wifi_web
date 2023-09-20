@@ -1,0 +1,30 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% include "header.html" %}
+
+<header>
+  <div class="mb-5 py-5 d-flex align-content-end flex-wrap" style="height: 50vh; background-image: url({{ url_for('static', filename='img/login_cover.jpg') }}); background-position: center; background-size: cover;">
+    <div class="container">
+      <h2 class="text-white fw-bold display-3">Login</h2>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-auto">
+      {{ wtf.quick_form(form, button_map={"submit": "dark"}) }}
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <!-- Error messages -->
+          {% for message in messages %}
+            <p class="text-danger"> {{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %}
