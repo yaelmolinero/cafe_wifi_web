@@ -11,12 +11,12 @@ from forms import RegisterCafe, CreateCount, LoginForm, CommentForm
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ["SECRET_KEY"]
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
 # -------------------- CONNECT TO DATABASE -------------------- #
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///cafes.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///cafes.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 db = SQLAlchemy(app)
 
