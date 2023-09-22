@@ -8,10 +8,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import date
 from forms import RegisterCafe, CreateCount, LoginForm, CommentForm
+from secrets import token_hex
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SECRET_KEY'] = token_hex(32)
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
