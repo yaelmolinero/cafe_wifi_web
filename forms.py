@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, EmailField, PasswordField, SelectField, BooleanField, FloatField
+from wtforms import StringField, SubmitField, EmailField, PasswordField, SelectField,\
+    BooleanField, FloatField, TextAreaField
 from wtforms.validators import DataRequired, URL
-from flask_ckeditor import CKEditorField
 
 # -------------------- WTForms REGISTER NEW USER -------------------- #
 class RegisterCafe(FlaskForm):
@@ -38,6 +38,6 @@ class LoginForm(FlaskForm):
 class CommentForm(FlaskForm):
     score = SelectField("Do you enjoy?", validators=[DataRequired()],
                         choices=["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"])
-    body = CKEditorField("Comment:")
+    body = TextAreaField("Comment:", validators=[DataRequired()])
 
     submit = SubmitField("Confirm")

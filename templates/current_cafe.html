@@ -24,7 +24,7 @@
             <img width="50" height="50" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png">
           </div>
           <!-- COMMENT CONTENT -->
-          <div class="col-10 ps-1 pe-1">
+          <div class="col-9 col-sm-10 ps-1 pe-1">
             <span>
               <span class="fw-bold my-0 h5">{{ comment.comment_author.name | safe() }}  </span>
               <span class="my-0 h5">{{ '★' * comment.score | int }}{{ '☆' * (5-comment.score) | int }}</span>
